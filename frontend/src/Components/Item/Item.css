@@ -1,14 +1,17 @@
 .item{
-    width: 350px;
+    width: 325px;
+    height: 325px;
+}
+.item img{
+    width: 325px;
+    height: 325px;
 }
 .item p{
     margin: 6px 0px;
     position: relative;
-    left: 100px;
 }
 .item-prices{
     position: relative;
-    left: 140px;
     display: flex;
     gap: 20px;
 }
@@ -32,4 +35,51 @@
     width: 425px;
     height: 425px;
 }
- 
+@media(max-width:1280px){
+    .item{
+        width: 250px;
+        font-size: 14px;
+    }
+    .item img{
+        width: 250px;
+        height: 250px;
+    }
+    .item-price-old{
+        font-size: 14px;
+    }
+}
+@media(max-width:1024px){
+    .item{
+        width: 200px;
+        font-size: 13px;
+    }
+    .item img{
+        width: 200px;
+        height: 200px;
+    }
+    .item-price-old{
+        font-size: 13px;
+    }
+}
+@media(max-width:800px){
+    .item{
+        width: 150px;
+        font-size: 12px;
+    }
+    .item img{
+        width: 150px;
+        height: 150px;
+    }
+    .item-price-old{
+        font-size: 12px;
+    }
+}
+@media(max-width:500px){
+    .item{
+        width: 140px;
+    }
+    .item img{
+        width: 140px;
+        height: 140px;
+    }
+}

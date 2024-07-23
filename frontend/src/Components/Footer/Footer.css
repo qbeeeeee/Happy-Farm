@@ -67,3 +67,30 @@
     filter: opacity(66%) drop-shadow(0 0 0 rgb(0, 0, 0));
     left: 0px;
 }
+@media(max-width:800px){
+    .footer{
+        gap: 20px;
+    }
+    .footer-logo{
+        gap: 10px;
+        align-items: end;
+    }
+    .footer-happy-farm-logo{
+        width: 180px;
+        height: 90px;
+    }
+    .footer-happy-farm-logo2{
+        width: 180px;
+        height: 90px;
+    }
+    .footer-links{
+        font-size: 14px;
+        gap: 10px;
+    }
+    .footer-social-icon img{
+        width: 22px;
+    }
+    .footer-copyright{
+        font-size: 13px;
+    }
+}
