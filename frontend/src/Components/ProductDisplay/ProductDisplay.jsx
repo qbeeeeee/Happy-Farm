@@ -3,6 +3,7 @@ import './ProductDisplay.css'
 import star_icon from "../Assets/star_icon.png"
 import star_dull_icon from "../Assets/star_dull_icon.png"
 import { ShopContext } from '../../Context/ShopContext'
+import { Link } from 'react-router-dom'
 
 const ProductDisplay = (props) => {
 
@@ -38,7 +39,12 @@ const ProductDisplay = (props) => {
             <div className="productdisplay-right-description">
 
             </div>
-            <button onClick={()=>{addToCart(product.id)}}>ADD TO CART</button>
+
+            {localStorage.getItem('auth-token')
+            ?<button onClick={()=>{addToCart(product.id)}}>ADD TO CART</button>
+            :<Link to='/login'> <button>ADD TO CART</button> </Link>}
+
+            {/* <button onClick={()=>{addToCart(product.id)}}>ADD TO CART</button> */}
             <p className='productdisplay-right-category'><span>Category :</span> Dog , Food</p>
             <p className='productdisplay-right-category'><span>Tags :</span> Latest , Food</p>
         </div>

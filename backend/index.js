@@ -38,7 +38,7 @@ app.use('/images',express.static('upload/images'))
 
 app.post("/upload",upload.single('product'),(req,res)=>{
     res.json({
-        succes:1,
+        success:1,
         image_url:`http://localhost:${port}/images/${req.file.filename}`
     })
 })
@@ -126,6 +126,140 @@ app.get('/allproducts',async (req,res)=>{
     res.send(products);
 })
 
+// Schema creating for User model
+
+const Users = mongoose.model('Users',{
+    name:{
+        type:String,
+    },
+    email:{
+        type:String,
+        unique:true,
+    },
+    password:{
+        type:String,
+    },
+    cartData:{
+        type:Object,
+    },
+    date:{
+        type:Date,
+        default:Date.now,
+    }
+})
+
+// Creating Endpoint for registering user
+app.post('/signup',async (req,res)=>{
+
+    let check = await Users.findOne({email:req.body.email});
+    if(check){
+        return res.status(400).json({success:false,errors:"Email Already Exists"});
+    }
+    let cart = {};
+    for (let i = 0; i < 300; i++) {
+        cart[i]=0;
+    }
+    const user = new Users({
+        name:req.body.username,
+        email:req.body.email,
+        password:req.body.password,
+        cartData:cart,
+    })
+
+    await user.save();
+
+    const data = {
+        user:{
+            id:user.id
+        }
+    }
+
+    const token = jwt.sign(data,'secret_ecom');
+    res.json({success:true,token});
+})
+
+//Creating Endpoint for User Login
+app.post('/login',async (req,res)=>{
+    let user = await Users.findOne({email:req.body.email});
+    if(user){
+        const passCompare = req.body.password === user.password;
+        if(passCompare){
+            const data = {
+                user:{
+                    id:user.id
+                }
+            }
+            const token = jwt.sign(data,'secret_ecom');
+            res.json({success:true,token});
+        }
+        else{
+            res.json({success:false,errors:"Wrong Password"});
+        }
+    }
+    else{
+        res.json({success:false,errors:"Wrong Email ID"});
+    }
+})
+
+//Creating Endpoint for NewProducts Data
+app.get('/newproducts', async (req,res)=>{
+    let products = await Product.find({});
+    let newproducts = products.slice(1).slice(-8);
+    console.log("NewProducts Fetched");
+    res.send(newproducts);
+})
+
+//Creating Endpoint for popular in cats
+app.get('/popularincats', async(req,res)=>{
+    let products = await Product.find({category:"cats"});
+    let popular_in_cats = products.slice(0,4);
+    console.log("Popular in cats fetched");
+    res.send(popular_in_cats);
+})
+
+//Creating middelware to fetch user
+const fetchUser = async (req,res,next)=>{
+    const token = req.header('auth-token');
+    if(!token){
+        res.status(401).send({errors:"Please authenticate using valid token"});
+    }
+    else{
+        try {
+            const data = jwt.verify(token,'secret_ecom');
+            req.user = data.user;
+            next();
+        } catch (error) {
+            res.status(401).send({errors:"Please authenticate using valid token"});
+        }
+    }
+}
+
+//Creating Endpoint for adding products in cart
+app.post('/addtocart',fetchUser, async (req,res)=>{
+    console.log("Added",req.body.itemId);
+    let userData = await Users.findOne({_id:req.user.id});
+    userData.cartData[req.body.itemId] += 1;
+    await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
+    res.send("Added");
+})
+
+//Creating Endpoint to remove products from cart
+app.post('/removefromcart', fetchUser, async (req,res)=>{
+    console.log("Removed",req.body.itemId);
+    let userData = await Users.findOne({_id:req.user.id});
+    if(userData.cartData[req.body.itemId]>0){
+        userData.cartData[req.body.itemId] -= 1;
+    }
+    await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
+    res.send("Removed");
+})
+
+//Creating Endpoint to get cardata
+app.post('/getcart', fetchUser, async (req,res)=>{
+    console.log("GetCart");
+    let userData = await Users.findOne({_id:req.user.id});
+    res.json(userData.cartData);
+})
 
 app.listen(port,(error)=>{
     if (!error){
