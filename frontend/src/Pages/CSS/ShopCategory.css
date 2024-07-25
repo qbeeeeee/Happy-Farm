@@ -41,6 +41,15 @@
     font-size: 18px;
     font-weight: 500;
 }
+#categoryProducts{
+    display: grid;
+}
+#categoryProductsAsc{
+    display: none;
+}
+#categoryProductsDesc{
+    display: none;
+}
 @media(max-width:1280px){
     .shopcategory-banner{
         margin: 20px auto;

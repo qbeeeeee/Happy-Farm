@@ -22,9 +22,11 @@ const Navbar = () => {
     return(
         <div className="navbar">
             <div className="nav-logo">
-                <div className="parents-logo-imgs">
+                <div onClick={()=>{setMenu("shop")}} className="parents-logo-imgs">
+                    <Link style={{textDecoration: "none"}} to='/'>
                     <img className="happy-farm-logo" src={logo} alt="" />
                     <img className="happy-farm-logo2" src={logo2} alt="" />
+                    </Link>
                 </div>
                 {/* <p>SHOPPER</p> */}
             </div>
