@@ -26,7 +26,7 @@
     margin: 20px 170px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    row-gap: 80px;
+    row-gap: 90px;
 }
 .shopcategory-loadmore{
     display: flex;
@@ -51,11 +51,19 @@
 #categoryProductsDesc{
     display: none;
 }
-.item-page{
-    display: none;
-}
-.explore-more-button{
+.shopcategory-loadmore2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 150px auto;
+    width: 233px;
+    height: 69px;
+    border-radius: 75px;
     background: rgb(216, 216, 216);
+    color: #000000;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
 }
 @media(max-width:1280px){
     .shopcategory-banner{
