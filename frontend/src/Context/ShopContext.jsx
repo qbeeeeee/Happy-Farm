@@ -112,7 +112,7 @@ const ShopContextProvider = (props) => {
         return totalItem;
     }
 
-    const contextValue = {all_productdesc,all_productasc,getTotalCartItems,getTotalCartAmount,all_product, cartItems,addToCart,removeFromCart};
+    const contextValue = {setAll_Product,all_productdesc,all_productasc,getTotalCartItems,getTotalCartAmount,all_product, cartItems,addToCart,removeFromCart};
 
     return(
         <ShopContext.Provider value={contextValue}>

@@ -6,29 +6,53 @@ import Item from '../Components/Item/Item'
  
 const ShopCategory = (props) => {
 
-  const {all_product} = useContext(ShopContext);  
-  const {all_productasc} = useContext(ShopContext);
-  const {all_productdesc} = useContext(ShopContext);
-  
-  const sortByNumChange = () => {
+  const {all_product,setAll_Product} = useContext(ShopContext);
+  let productperpage = 0;
+  let a = 11;
+
+  const addMore = () => {
+    let itemProduct = document.getElementById("categoryProducts");
+    if(itemProduct.children.length > a){
+      for (let i = a; i < itemProduct.children.length; i++) {
+        itemProduct.children[i].classList.remove("item-page");
+      }
+      a += 11;
+      console.log("heyy");
+    }
+    if(itemProduct.children.length < a){
+      document.getElementById("exploreMoreButton").classList.add("explore-more-button");
+    }
+  }
+
+  const sortByNumChange = (event) => {
     let sb = document.querySelector('#sort-by');
     if(sb.value === "1"){
-      console.log("yeaaa1");
-      document.getElementById("categoryProducts").style.display = "none";
-      document.getElementById("categoryProductsAsc").style.display = "grid";
-      document.getElementById("categoryProductsDesc").style.display = "none";
+      all_product.sort((a,b)=>(a.new_price < b.new_price ? 1 : -1));
+      setAll_Product([
+        ...all_product,
+        {}
+      ]);
     }
     if(sb.value === "2"){
-      console.log("yeaaa");
-      document.getElementById("categoryProducts").style.display = "none";
-      document.getElementById("categoryProductsAsc").style.display = "none";
-      document.getElementById("categoryProductsDesc").style.display = "grid";
+      all_product.sort((a,b)=>(a.new_price > b.new_price ? 1 : -1));
+      setAll_Product([
+        ...all_product,
+        {}
+      ]);
     }
     if(sb.value === "3"){
-      console.log("yeaaa");
-      document.getElementById("categoryProducts").style.display = "grid";
-      document.getElementById("categoryProductsAsc").style.display = "none";
-      document.getElementById("categoryProductsDesc").style.display = "none";
+      all_product.sort((a,b)=>(a.date > b.date ? 1 : -1));
+      setAll_Product([
+        ...all_product,
+        {}
+      ]);
+    }
+    if(sb.value === "4"){
+      all_product.sort((a,b)=>(a.date > b.date ? 1 : -1));
+      setAll_Product([
+        ...all_product,
+        {}
+      ]);
     }
 
   }
@@ -51,37 +75,18 @@ const ShopCategory = (props) => {
             <option value="4">Πιο πρόσφατα</option>
           </select>
         </div>
-        <div id="categoryProductsDesc" className="shopcategory-products">
-            {all_productdesc.sort((a,b)=>(a.new_price > b.new_price ? 1 : -1)).map((item,i)=>{
-              if(props.category===item.category){
-                return <Item key={i} id={item.id} name={1} image={item.image} new_price={item.new_price} old_price={item.old_price}/>
-              }
-              else{
-                  return null;
-              }
-            })}
-        </div>
-        <div id="categoryProductsAsc" className="shopcategory-products">
-            {all_productasc.sort((a,b)=>(a.new_price < b.new_price ? 1 : -1)).map((item,i)=>{
-              if(props.category===item.category){
-                return <Item key={i} id={item.id} name={item.name} image={item.image} new_price={item.new_price} old_price={item.old_price}/>
-              }
-              else{
-                return null;
-              }
-            })}
-          </div>
         <div id="categoryProducts" className="shopcategory-products">
             {all_product.map((item,i)=>{
               if(props.category===item.category){
-                return <Item key={i} id={item.id} name={item.name} image={item.image} new_price={item.new_price} old_price={item.old_price}/>
+                productperpage += 1;
+                return <Item classItemPage={productperpage>12?true:false} key={i} id={item.id} name={item.name} image={item.image} new_price={item.new_price} old_price={item.old_price}/>
               }
               else{
                 return null;
               }
-            })}
-          </div>
-        <div className="shopcategory-loadmore">
+            },)}
+        </div>
+        <div id="exploreMoreButton" onClick={addMore} className="shopcategory-loadmore">
           Explore More
         </div>
     </div>

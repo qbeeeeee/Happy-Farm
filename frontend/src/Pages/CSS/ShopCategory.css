@@ -36,10 +36,11 @@
     width: 233px;
     height: 69px;
     border-radius: 75px;
-    background: #ededed;
-    color: #787878;
+    background: #ff4545;
+    color: #000000;
     font-size: 18px;
     font-weight: 500;
+    cursor: pointer;
 }
 #categoryProducts{
     display: grid;
@@ -49,6 +50,12 @@
 }
 #categoryProductsDesc{
     display: none;
+}
+.item-page{
+    display: none;
+}
+.explore-more-button{
+    background: rgb(216, 216, 216);
 }
 @media(max-width:1280px){
     .shopcategory-banner{
