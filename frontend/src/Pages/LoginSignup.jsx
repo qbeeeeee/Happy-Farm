@@ -3,6 +3,7 @@ import './CSS/LoginSignup.css'
 
 const LoginSignup = () => {
 
+  const checkBox = document.querySelector("#checkbox-agree");
   const [state,setState] = useState("Login");
   const [formData,setFormData] = useState({
     username:"",
@@ -36,6 +37,17 @@ const LoginSignup = () => {
   }
 
   const signup = async () =>{
+    if(formData.email ==="" || formData.username === "" || formData.password === "")
+    {
+      return alert("Please Fill All Fields");
+    }else if(!checkBox.checked){
+      return alert("Agree to the terms of use & privacy policy");
+    }
+    else if(formData.password.length<6){
+      return alert("Require Stronger Password");
+    }else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)){
+      return alert("Invalid Email Adress");
+    }
     console.log("sign up exc", formData);
     let responseData;
     await fetch('http://localhost:4000/signup',{
@@ -70,10 +82,12 @@ const LoginSignup = () => {
           {state==="Sign Up"
           ?<p className="loginsignup-login">Already have an account? <span onClick={()=>{setState("Login")}}>Login here</span>  </p>
           :<p className="loginsignup-login">Create an account? <span onClick={()=>{setState("Sign Up")}}>Click here</span>  </p>}
-          <div className="loginsignup-agree">
-            <input type="checkbox" name='' id=''/>
+          {state==="Sign Up"
+          ?<div className="loginsignup-agree">
+            <input type="checkbox" name='' id='checkbox-agree'/>
             <p>By continuing, i agree to the terms of use & privacy policy</p>
           </div>
+          :""}
         </div>
     </div>
   )

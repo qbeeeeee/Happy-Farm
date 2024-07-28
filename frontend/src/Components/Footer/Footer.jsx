@@ -4,6 +4,7 @@ import instagram_icon from '../Assets/Happyfarm/instagram_icon.png'
 import whatsapp_icon from '../Assets/Happyfarm/whatsapp_icon.png'
 import logo from '../Assets/Happyfarm/HappyFarm2.png' 
 import logo2 from '../Assets/Happyfarm/HappyFarm3.png' 
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
@@ -16,13 +17,15 @@ const Footer = () => {
         </div>
         <ul className="footer-links">
             <li>Company</li>
-            <li>Products</li>
+            <li><Link style={{color: 'black',textDecoration: "none"}} to='/dogs'>Products</Link></li>
             <li>About</li>
             <li>Contact</li>
         </ul>
         <div className="footer-social-icon">
             <div className="footer-icons-container">
-                <img src={instagram_icon} alt="" />
+                <a href="https://www.instagram.com/happyfarm.katerini/?hl=el" target="_blank" rel="noopener noreferrer">
+                    <img src={instagram_icon} alt="" />
+                </a>
             </div>
             <div className="footer-icons-container">
                 <img src={whatsapp_icon} alt="" />

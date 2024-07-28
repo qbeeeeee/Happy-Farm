@@ -1,12 +1,27 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import './CartItems.css'
 import {ShopContext} from '../../Context/ShopContext'
 import remove_icon from '../Assets/cart_cross_icon.png'
 
 const CartItems = () => {
     const {getTotalCartAmount,all_product,cartItems,removeFromCart} = useContext(ShopContext);
+    const [progress,setProgress] = useState(0);
+
+    const getColor = () => {
+        if(progress < 40){
+            return "#ff0000";
+        }else if(progress < 70){
+            return "#ffa500";
+        }else{
+            return "#2ecc71";
+        }
+    }
+    const resetAmount = () => {
+        setProgress(getTotalCartAmount());
+    }
+
   return (
-    <div className="cartitems">
+    <div onLoad={resetAmount} className="cartitems">
         <div className="cartitems-format-main">
             <p>Products</p>
             <p>title</p>
@@ -26,7 +41,8 @@ const CartItems = () => {
                                 <p>${e.new_price}</p>
                                 <button className='cartitems-quantity'>{cartItems[e.id]}</button>
                                 <p>${e.new_price*cartItems[e.id]}</p>
-                                <img className="cartitems-remove-icon" src={remove_icon} onClick={()=>{removeFromCart(e.id)}} alt="" />
+                                <img className="cartitems-remove-icon" src={remove_icon} 
+                                onClick={()=>{removeFromCart(e.id);setProgress(getTotalCartAmount()-e.new_price)}} alt="" />
                             </div>
                             <hr />
                         </div>
@@ -50,6 +66,14 @@ const CartItems = () => {
                     <div className="cartitems-total-item">
                         <h3>Total</h3>
                         <h3>${getTotalCartAmount()}</h3>
+                    </div>
+                    <div className="container-progressbar">
+                        <div className="progress-bar">
+                            <div className="progress-bar-fill" style={{width: `${progress}%`,backgroundColor: getColor() }}>
+                                
+                            </div>
+                        </div>
+                        <div className="progress-label">{progress>=100?100:progress}%</div>
                     </div>
                 </div>
                 <button>PROCEED TO CHECKOUT</button>
