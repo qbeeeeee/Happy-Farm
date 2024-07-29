@@ -25,11 +25,6 @@
     align-items: center;
     gap: 10px;
 }
-.nav-logo p{
-    color: #171717;
-    font-size: 38px;
-    font-weight: 600;
-}
 .nav-menu{
     display: flex;
     align-items: center;
@@ -92,10 +87,13 @@
 }
 @media(max-width:1280px){
     .navbar{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
         padding: 12px 50px;
     }
     .nav-logo img{
-        width: 150px;
+        width: 140px;
     }
     .nav-logo p{
         font-size: 25px

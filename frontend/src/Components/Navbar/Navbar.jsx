@@ -7,12 +7,13 @@ import logo2 from '../Assets/Happyfarm/HappyFarm3.png'
 import cart_icon from '../Assets/cart_icon.png'
 import { ShopContext } from '../../Context/ShopContext'
 import nav_dropdown from '../Assets/nav_dropdown.png'
-
+import SearchBar from '../SearchBar/SearchBar'
 const Navbar = () => {
 
     const [menu,setMenu] = useState("shop");
     const {getTotalCartItems} = useContext(ShopContext);
     const menuRef = useRef();
+    const {all_product} = useContext(ShopContext);
 
     const dropdown_toggle = (e) => {
         menuRef.current.classList.toggle('nav-menu-visible');
@@ -28,8 +29,8 @@ const Navbar = () => {
                     <img className="happy-farm-logo2" src={logo2} alt="" />
                     </Link>
                 </div>
-                {/* <p>SHOPPER</p> */}
             </div>
+            <SearchBar placeholder="Search for a product..." data={all_product} />
             <img className='nav-dropdown' onClick={dropdown_toggle} src={nav_dropdown} alt="" />
             <ul ref={menuRef} className="nav-menu">   
                 <li onClick={()=>{setMenu("shop")}}><Link style={{color: 'black',textDecoration: "none"}} to='/'>Shop</Link> {menu==='shop'?<hr/>:<></>} </li>
