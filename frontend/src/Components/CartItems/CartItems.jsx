@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react'
 import './CartItems.css'
 import {ShopContext} from '../../Context/ShopContext'
 import remove_icon from '../Assets/cart_cross_icon.png'
+import { Link } from 'react-router-dom'
 
 const CartItems = () => {
     const {getTotalCartAmount,all_product,cartItems,removeFromCart} = useContext(ShopContext);
@@ -76,7 +77,7 @@ const CartItems = () => {
                         <div className="progress-label">{progress>=100?100:progress}%</div>
                     </div>
                 </div>
-                <button>PROCEED TO CHECKOUT</button>
+                <Link style={{color: 'black',textDecoration: "none"}} to='/checkout'><button>PROCEED TO CHECKOUT</button></Link>
             </div>
             <div className="cartitems-promocode">
                 <p>If you have a promo code, Enter it here</p>

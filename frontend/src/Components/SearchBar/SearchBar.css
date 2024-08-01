@@ -89,10 +89,10 @@
         font-size: 22px;
     }
     .search-input{
-        width: 250px;
+        width: 100%;
     }
     .expanded {
-        width: 250px;
+        width: 100%;
     }
     .item-img {
         width: 40px;

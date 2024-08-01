@@ -2,13 +2,14 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const port = 4000;
-const express = require("express");
+const express = require('express');
 const app = express();
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
+const stripe = require('stripe');
 
 app.use(express.json()); //All request from response will parse in json
 app.use(cors()); //Will connect express app on 4000 Port
@@ -19,7 +20,7 @@ mongoose.connect(process.env.URI);
 //API creation
 
 app.get("/",(req,res)=>{
-    res.send("Express App is Running")
+    res.send("Express App is Running");
 })
 
 // Image Storage Engine
@@ -42,6 +43,19 @@ app.post("/upload",upload.single('product'),(req,res)=>{
         image_url:`http://localhost:${port}/images/${req.file.filename}`
     })
 })
+
+
+// Define schema for Order
+const Orders = new mongoose.model("Orders",{
+    customerEmail: {
+        type: String,
+        required: true,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+});
 
 // Schema for Creating Products
 
@@ -269,3 +283,60 @@ app.listen(port,(error)=>{
         console.log("Error : "+error)
     }
 })
+
+//stripe payment
+let stripeGateway = stripe(process.env.stripe_key);
+
+let DOMAIN = process.env.DOMAIN;
+
+app.post('/stripe-checkout', async (req, res) => {
+    try {
+        const session = await stripeGateway.checkout.sessions.create({
+            payment_method_types: ["card"],
+            mode: "payment",
+            success_url: 'http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url: 'http://localhost:3000/checkout',
+            line_items: req.body.items.map(item => {
+                return {
+                    price_data: {
+                        currency: "usd",
+                        product_data: {
+                            name: item.name,
+                            images: [item.image]
+                        },
+                        unit_amount: item.new_price * 100 // Amount in cents
+                    },
+                    quantity: item.quantity
+                };
+            })
+        });
+
+        res.json(session.url);
+    } catch (error) {
+        console.error('Error creating Stripe session:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.get('/retrieve-session', async (req, res) => {
+    console.log("YOOOO");
+    console.log('Stripe Object:', stripe);
+    let { session_id } = req.query;
+
+    if (!session_id) {
+        console.log('Missing session_id');
+        return res.status(400).json({ error: 'Missing session_id' });
+    }
+
+    try {
+        const session = await stripe.checkout.sessions.retrieve(session_id);
+        const customer = await stripe.customers.retrieve(session.customer);
+
+        console.log('Customer details:', customer);
+
+        res.json({ session, customer });
+    } catch (error) {
+        console.error('Error retrieving Stripe session or customer:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});

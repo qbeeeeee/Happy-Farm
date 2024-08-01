@@ -24,30 +24,26 @@ const ShopCategory = (props) => {
     if(sb.value === "1"){
       all_product.sort((a,b)=>(a.new_price < b.new_price ? 1 : -1));
       setAll_Product([
-        ...all_product,
-        {}
+        ...all_product
       ]);
       window.scrollTo({ bottom: 0, behavior: 'smooth' })
     }
     if(sb.value === "2"){
       all_product.sort((a,b)=>(a.new_price > b.new_price ? 1 : -1));
       setAll_Product([
-        ...all_product,
-        {}
+        ...all_product
       ]);
     }
     if(sb.value === "3"){
       all_product.sort((a,b)=>(a.date > b.date ? 1 : -1));
       setAll_Product([
-        ...all_product,
-        {}
+        ...all_product
       ]);
     }
     if(sb.value === "4"){
       all_product.sort((a,b)=>(a.date > b.date ? 1 : -1));
       setAll_Product([
-        ...all_product,
-        {}
+        ...all_product
       ]);
     }
 

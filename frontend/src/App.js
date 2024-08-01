@@ -10,6 +10,8 @@ import Footer from './Components/Footer/Footer';
 import dogs_banner from './Components/Assets/Happyfarm/dogs_banner.png';
 import cats_banner from './Components/Assets/Happyfarm/cats_banner.png';
 import accessories_banner from './Components/Assets/Happyfarm/accessories_banner.jpg';
+import Checkout from './Pages/Checkout';
+import SuccessPage from './Pages/SuccessPage';
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
         </Route>
         <Route path="/cart" element={<Cart/>}/>
         <Route path='login' element={<LoginSignup/>}/>
+        <Route path="/checkout" element={<Checkout/>} />
+        <Route path="/success" element={<SuccessPage/>}/>
 
       </Routes>
       <Footer/>
