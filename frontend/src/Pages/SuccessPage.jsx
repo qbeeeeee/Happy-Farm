@@ -1,5 +1,3 @@
-// Assuming you're using React or a similar framework
-
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
