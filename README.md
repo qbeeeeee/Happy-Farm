@@ -2,7 +2,7 @@
 
 Welcome to the HappyFarm Shop E-Commerce site! This project is a full-featured online store for pet foods and accessories. Built using React.js, Express, Node.js, MongoDB, and Stripe, this application provides a seamless shopping experience for users.
 
-You can see a video of the app here : [![Spotify-Clone Video]()](https://drive.google.com/file/d/1XU_Xj2dQ5JEunxHTnJHAVOEIun66-BMG/view?usp=sharing)
+You can see a video of the app here : [![E-Shop Video]()](https://drive.google.com/file/d/1XU_Xj2dQ5JEunxHTnJHAVOEIun66-BMG/view?usp=sharing)
 
 ## Table of Contents
 
